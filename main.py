@@ -1,23 +1,11 @@
 from sparse_matrix import SparseMatrix
 import numpy as np
 
-a = [[1, 0, 1, 2, 0, 4, 1],
-    [2, 0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 1, 2, 0, 0],
-    [0, 3, 5, 2, 5, 1, 2]]
+n, m, k = 100, 100, 100
 
-b = [[1, 0, 99, 2, 0, 4, 1],
-    [100, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0, 0, 0],
-    [0, 3, 0, 2, 100, 1, 0]]
-
-c = [[0, 2, 4, 0],
-    [0, 0, 2, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 1],
-    [0, 2, 3, 2],
-    [0, 2, 0, 1],
-    [0, 9, 0, 1]]
+a = list(np.random.randint(0, 1000, size=(n, m)))
+b = list(np.random.randint(0, 1000, size=(n, m)))
+c = list(np.random.randint(0, 1000, size=(m, k)))
 
 # a cùng kích cỡ với b
 # a với c có thể nhân nghịch đảo
