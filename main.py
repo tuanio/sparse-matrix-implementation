@@ -1,4 +1,5 @@
 from sparse_matrix import SparseMatrix
+import numpy as np
 
 a = [[1, 0, 1, 2, 0, 4, 1],
     [2, 0, 0, 0, 0, 0, 1],
