@@ -1,4 +1,5 @@
-from typing import List, Dict
+from typing import List, Dict, Tuple, Set
+from itertools import chain
 
 
 class SparseMatrix(object):
@@ -31,58 +32,56 @@ class SparseMatrix(object):
         if self.n != obj.n or self.m != obj.m:
             raise Exception("Không cùng kích cỡ")
 
-        A = self.sparse_
+        A = self.sparse_.copy()
         B = obj.sparse_
         for i in range(self.n):
             for j in range(self.m):
-                try:
-                    A[(i, j)] = A[(i, j)] + B[(i, j)]
-                except:
-                    pass
+                foo = B.get((i, j), 0)
+                if foo:
+                    A[(i, j)] = A.get((i, j), 0) + foo
+
         return SparseMatrix(A, self.n, self.m)
 
     def __sub__(self, obj: object):
         if self.n != obj.n or self.m != obj.m:
             raise Exception("Không cùng kích cỡ")
 
-        A = self.sparse_
+        A = self.sparse_.copy()
         B = obj.sparse_
         for i in range(self.n):
             for j in range(self.m):
-                try:
-                    A[(i, j)] = A[(i, j)] - B[(i, j)]
-                except:
-                    pass
+                foo = B.get((i, j), 0)
+                if foo:
+                    A[(i, j)] = A.get((i, j), 0) - foo
+
         return SparseMatrix(A, self.n, self.m)
 
     def __mul__(self, obj: object):
         if self.n != obj.n or self.m != obj.m:
             raise Exception("Không cùng kích cỡ")
 
-        A = self.sparse_
+        A = self.sparse_.copy()
         B = obj.sparse_
         for i in range(self.n):
             for j in range(self.m):
-                try:
-                    A[(i, j)] = A[(i, j)] * B[(i, j)]
-                except:
-                    pass
+                foo = A.get((i, j), 0) * B.get((i, j), 0)
+                if foo:
+                    A[(i, j)] = foo
+
         return SparseMatrix(A, self.n, self.m)
 
     def __matmul__(self, obj: object):
         if self.m != obj.n:
             raise Exception("Không cùng kích cỡ để nhân ma trận")
-
+        C = {}
         A = self.sparse_
         B = obj.sparse_
-        C = {}
         for i in range(self.n):
             for j in range(self.m):
                 for k in range(obj.m):
-                    try:
-                        C[(i, k)] += A[(i, j)] * B[(j, k)]
-                    except:
-                        pass
+                    foo = A.get((i, j), 0) * B.get((j, k), 0)
+                    if foo:
+                        C[(i, k)] = C.get((i, k), 0) + foo
         return SparseMatrix(C, self.n, obj.m)
 
     def transpose(self):
