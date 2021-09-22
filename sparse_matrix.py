@@ -3,16 +3,11 @@ from itertools import chain
 
 
 class SparseMatrix(object):
-    def __init__(self, matrix, n: int = None, m: int = None):
-        if type(matrix) == list:  # if matrix is list like
-            self.dense_ = matrix
-            self.n = len(matrix)
-            self.m = len(matrix[0])
-            self.sparse_ = self.__to_sparse()
-        else:  # if matrix is a dictionary
-            self.sparse_ = matrix
-            self.n = n
-            self.m = m
+    def __init__(self, matrix: List[List]):
+        self.dense_ = matrix
+        self.n = len(matrix)
+        self.m = len(matrix[0])
+        self.sparse_ = self.__to_sparse()
 
     def __to_sparse(self) -> Dict:
         sparse_matrix = {}
@@ -85,8 +80,12 @@ class SparseMatrix(object):
         return SparseMatrix(C, self.n, obj.m)
 
     def transpose(self):
-        A = {(j, i): val for (i, j), val in self.sparse_.items()}
-        return SparseMatrix(A, self.m, self.n)
+        A = self.to_dense()
+        B = [[0 for i in range(self.n)] for j in range(self.m)]
+        for i in range(self.n):
+            for j in range(self.m):
+                B[j][i] = A[i][j]
+        return SparseMatrix(B)
 
     def __repr__(self):
         return '<Sparse Matrix {0.n}x{0.m}>'.format(self)
